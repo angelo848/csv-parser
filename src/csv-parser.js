@@ -1,6 +1,5 @@
 const csv = require('csv-parser')
 const stream = require('stream')
-const fs = require('fs')
 
 module.exports = {
   async parse(req, res) {
@@ -25,25 +24,6 @@ module.exports = {
         });
 
         rows = rows.filter((row) => Object.keys(row).length !== 0);
-
-        for (const row of rows) {
-          fs.writeFile(`./result/${row.TITULO.trim().split(' ').join('-')}-${rows.indexOf(row)}.md`,
-            '---\n' +
-            `name: '${row.TITULO}'\n` +
-            `initials: '${row.Sigla}'\n` +
-            `category: 'polo'\n` +
-            `state: '${row.UF}'\n` +
-            `city: '${row.MUNICIPIO}'\n` +
-            `district: '${row.BAIRRO}'\n` +
-            `address: '${row.endereço}'\n` +
-            `cep: '${row.CEP}'\n` +
-            `coordinator: '${row.COORDENADOR}'\n` +
-            `phone: '${row.TELEFONE}'\n` +
-            `email: '${row['E-MAIL']}'\n` +
-            '---', (err) => {
-              if (err) return console.log(err);
-            })
-        }
 
         res.json(rows)
       }
